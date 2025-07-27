@@ -39,14 +39,15 @@
 
         .jar {
             position: relative;
-            width: 360px;
+            width: 300px;
             height: 400px;
             margin: 0 auto;
-            background: none;
-            border: none;
-            border-radius: 0;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 20px 20px 40px 40px;
+            backdrop-filter: blur(10px);
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            overflow: visible;
+            overflow: hidden;
             opacity: 0;
             animation: fadeIn 2s ease-in 1s forwards;
         }
@@ -180,54 +181,6 @@
             animation: fadeIn 2s ease-in 7s forwards;
         }
 
-        .note {
-            margin-top: 40px;
-            color: #fff;
-            font-family: 'Pacifico', cursive, 'Georgia', serif;
-            font-size: 1.3rem;
-            text-align: center;
-            text-shadow: 1px 1px 8px #764ba2;
-            opacity: 0;
-            animation: fadeIn 2s ease-in 8s forwards;
-        }
-
-        .handwritten-note {
-            font-family: 'Pacifico', cursive, 'Georgia', serif;
-            color: #ffd6e0;
-            font-size: 1.7rem;
-            margin-top: 30px;
-            text-align: center;
-            text-shadow: 2px 2px 8px #764ba2;
-            opacity: 0;
-            animation: fadeIn 2s ease-in 9s forwards;
-        }
-
-        .floating-heart {
-            position: fixed;
-            left: 50%;
-            font-size: 2rem;
-            color: #ff69b4;
-            opacity: 0.8;
-            pointer-events: none;
-            z-index: 99;
-            animation: heartFloat 3s linear forwards;
-        }
-
-        @keyframes heartFloat {
-            0% {
-                transform: translate(-50%, 0) scale(1);
-                opacity: 0.8;
-            }
-            70% {
-                opacity: 1;
-                transform: translate(-50%, -80px) scale(1.2);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -120px) scale(0.8);
-            }
-        }
-
         @keyframes fadeIn {
             to {
                 opacity: 1;
@@ -273,118 +226,50 @@
         .butterfly4 { animation-delay: 5s, 5s; }
         .butterfly5 { animation-delay: 6s, 6s; }
 
-        .svg-butterfly {
-            transition: transform 0.3s, opacity 0.3s;
-        }
-        .svg-butterfly:hover {
-            transform: scale(1.3) rotate(-10deg);
-            opacity: 0.8;
-        }
-
         @media (max-width: 480px) {
-            .container {
-                max-width: 98vw;
-                padding: 0 2vw;
-            }
             .title {
-                font-size: 1.5rem;
-                margin-bottom: 18px;
+                font-size: 2rem;
             }
             .jar {
-                width: 220px;
-                height: 250px;
-            }
-            .note,
-            .handwritten-note {
-                font-size: 1.1rem;
-                margin-top: 18px;
-            }
-            .instruction {
-                font-size: 0.95rem;
-                margin-top: 18px;
-            }
-            #show-video-btn {
-                font-size: 1rem;
-                padding: 8px 16px;
-                margin-top: 18px;
-            }
-            #video-modal video {
-                max-width: 96vw;
-                max-height: 45vh;
+                width: 250px;
+                height: 350px;
             }
             .message {
-                font-size: 1rem;
-                padding: 18px;
-                max-width: 95vw;
-            }
-            .message .close {
-                font-size: 1.2rem;
-                top: 6px;
-                right: 10px;
-            }
-        }
-
-        button {
-            font-size: 1.1rem;
-            padding: 10px 22px;
-            border-radius: 22px;
-            min-width: 120px;
-        }
-
-        .confetti {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0.85;
-            animation: confetti-fall 1.2s linear forwards;
-        }
-        @keyframes confetti-fall {
-            0% {
-                transform: translateY(0) scale(1) rotate(0deg);
-                opacity: 1;
-            }
-            80% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(120px) scale(0.7) rotate(360deg);
-                opacity: 0;
+                font-size: 1.1rem;
+                padding: 25px;
             }
         }
     </style>
 </head>
 <body>
-    <audio id="bg-music" src="Sahiba.mp3" autoplay loop></audio>
-    <div class="container">
+    <!-- Loading Popup -->
+    <div id="loadingPopup" style="
+        position:fixed;top:0;left:0;width:100vw;height:100vh;
+        background:rgba(102,126,234,0.95);z-index:2000;display:flex;
+        flex-direction:column;justify-content:center;align-items:center;
+        font-family:'Georgia',serif;color:white;text-align:center;">
+        <h2 style="font-size:2.2rem;margin-bottom:20px;">Hey Sahiba! 🦋</h2>
+        <p style="font-size:1.2rem;margin-bottom:30px;">
+            We heard you’re a bit under the weather.<br>
+            Loading extra hugs, giggles, and a secret song to cheer you up!<br>
+            (Warning: May cause sudden smiling and toe-tapping.)
+        </p>
+        <button id="startBtn" style="
+            padding:12px 32px;font-size:1.2rem;border-radius:20px;
+            border:none;background:#764ba2;color:white;cursor:pointer;
+            box-shadow:0 4px 16px rgba(0,0,0,0.2);transition:background 0.3s;">
+            Let's Start!
+        </button>
+    </div>
+
+    <!-- Song Audio (hidden) -->
+    <audio id="sahibaSong" src="Sahiba.mp3"></audio>
+
+    <!-- Main Content (hidden initially) -->
+    <div class="container" id="mainContent" style="display:none;">
         <h1 class="title">Messages Just for You 💕</h1>
         
         <div class="jar">
-            <svg width="360" height="400" viewBox="0 0 360 400" style="width:100%;height:auto;position:absolute;top:0;left:0;z-index:0;">
-                <!-- Jar body -->
-                <ellipse cx="180" cy="370" rx="110" ry="28" fill="#fff" opacity="0.15"/>
-                <rect x="70" y="60" width="220" height="320" rx="70" fill="#fff" opacity="0.12" stroke="#bbb" stroke-width="4"/>
-                <!-- Glass shine -->
-                <path d="M110 90 Q150 120 130 320" stroke="#fff" stroke-width="10" opacity="0.18" fill="none"/>
-                <!-- Lid -->
-                <ellipse cx="180" cy="60" rx="120" ry="32" fill="#d1c4e9" stroke="#aaa" stroke-width="4"/>
-                <rect x="60" y="38" width="240" height="32" rx="16" fill="#b39ddb" stroke="#aaa" stroke-width="2"/>
-                <!-- Lid shine -->
-                <ellipse cx="180" cy="55" rx="80" ry="12" fill="#fff" opacity="0.18"/>
-                <!-- Butterflies inside jar -->
-                <text x="110" y="120" font-size="32" class="svg-butterfly" onclick="showMessage(1)" style="cursor:pointer;">🦋</text>
-                <text x="220" y="170" font-size="32" class="svg-butterfly" onclick="showMessage(2)" style="cursor:pointer;">🦋</text>
-                <text x="140" y="230" font-size="32" class="svg-butterfly" onclick="showMessage(3)" style="cursor:pointer;">🦋</text>
-                <text x="200" y="290" font-size="32" class="svg-butterfly" onclick="showMessage(4)" style="cursor:pointer;">🦋</text>
-                <text x="170" y="180" font-size="32" class="svg-butterfly" onclick="showMessage(5)" style="cursor:pointer;">🦋</text>
-                <!-- Floating hearts -->
-                <text x="120" y="80" font-size="22" fill="#ff69b4" opacity="0.7">❤️</text>
-                <text x="250" y="100" font-size="18" fill="#ff69b4" opacity="0.7">💖</text>
-                <text x="160" y="320" font-size="20" fill="#ff69b4" opacity="0.7">💕</text>
-            </svg>
-            <!-- Butterflies (positioned absolutely as before) -->
             <div class="butterfly butterfly1" onclick="showMessage(1)">🦋</div>
             <div class="butterfly butterfly2" onclick="showMessage(2)">🦋</div>
             <div class="butterfly butterfly3" onclick="showMessage(3)">🦋</div>
@@ -393,11 +278,12 @@
         </div>
         
         <p class="instruction">Click each butterfly to reveal its message 🌟</p>
-        <div class="note">P.S. You mean the world to me. Get well soon, my love! 💌</div>
-        <div class="handwritten-note">
-            You are my sunshine, my reason to smile every day. 🥰<br>
-            <span style="font-size:1.2rem;">— Yours, always</span>
-        </div>
+        <button id="hugBtn" style="
+            margin-top:30px;padding:12px 32px;font-size:1.1rem;border-radius:20px;
+            border:none;background:#667eea;color:white;cursor:pointer;
+            box-shadow:0 4px 16px rgba(0,0,0,0.2);transition:background 0.3s;">
+            A Hug for You!
+        </button>
     </div>
 
     <div class="overlay" id="overlay" onclick="hideMessage()"></div>
@@ -407,15 +293,17 @@
         <div id="messageText"></div>
     </div>
 
-    <div id="video-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(40,20,60,0.85);z-index:9999;justify-content:center;align-items:center;">
-        <video id="hug-video" src="video.mp4" controls style="max-width:90vw;max-height:70vh;border-radius:20px;box-shadow:0 4px 32px #764ba2;">
-            Your browser does not support the video tag.
-        </video>
-        <button onclick="closeVideo()" style="position:absolute;top:30px;right:40px;font-size:2rem;background:none;color:#fff;border:none;cursor:pointer;">✖</button>
-    </div>
-    <button id="show-video-btn" style="margin:30px auto 0 auto;display:block;padding:10px 28px;border-radius:24px;background:#fff;color:#764ba2;font-weight:bold;box-shadow:0 2px 8px #764ba2;cursor:pointer;">
-        💞 See Our Hug!
-    </button>
+    <div class="overlay" id="videoOverlay" style="display:none;z-index:2001;"></div>
+<div id="videoPopup" style="
+    display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    background:white;padding:30px;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.3);
+    text-align:center;z-index:2002;">
+    <button onclick="hideVideo()" style="
+        position:absolute;top:10px;right:15px;background:none;border:none;
+        font-size:1.5rem;cursor:pointer;color:#999;">×</button>
+    <video id="hugVideo" src="video.mp4" controls style="width:100%;max-width:400px;border-radius:15px;"></video>
+    <div style="margin-top:18px;font-size:1.3rem;color:#764ba2;">Soon 💖</div>
+</div>
 
     <script>
         const messages = {
@@ -442,10 +330,6 @@
             const butterflyEl = document.querySelector(`.butterfly${butterflyNum}`);
             butterflyEl.style.opacity = '0.3';
             butterflyEl.style.transform = 'scale(0.8)';
-
-            // Confetti burst at butterfly position
-            const rect = butterflyEl.getBoundingClientRect();
-            burstConfetti(rect.left + rect.width/2, rect.top + rect.height/2);
         }
 
         function hideMessage() {
@@ -486,79 +370,34 @@
             }
         }, 8000);
 
-        function createFloatingHeart() {
-            const heart = document.createElement('div');
-            heart.className = 'floating-heart';
-            heart.innerText = ['❤️','💖','💕','💘'][Math.floor(Math.random()*4)];
-            heart.style.left = (Math.random() * 80 + 10) + 'vw';
-            heart.style.top = (Math.random() * 60 + 30) + 'vh';
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 3000);
-        }
+        // Hide main content, show popup on load
+        document.getElementById('mainContent').style.display = 'none';
 
-        // Periodically create hearts
-        setInterval(createFloatingHeart, 1800);
-
-        // Initial burst
-        setTimeout(() => {
-            for(let i=0; i<8; i++) setTimeout(createFloatingHeart, i*300);
-        }, 2000);
-
-        function burstConfetti(x, y) {
-            for (let i = 0; i < 24; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = x + 'px';
-                confetti.style.top = y + 'px';
-                confetti.style.background = `hsl(${Math.random()*360},80%,60%)`;
-                confetti.style.transform = `rotate(${Math.random()*360}deg)`;
-                confetti.style.animationDelay = (Math.random()*0.4) + 's';
-                document.body.appendChild(confetti);
-
-                // Animate in random direction
-                const angle = Math.random() * 2 * Math.PI;
-                const distance = Math.random() * 80 + 40;
-                confetti.style.transition = 'transform 1.2s cubic-bezier(.62,.04,.34,1.02)';
-                setTimeout(() => {
-                    confetti.style.transform = `translate(${Math.cos(angle)*distance}px, ${Math.sin(angle)*distance}px) scale(0.7) rotate(360deg)`;
-                }, 10);
-
-                setTimeout(() => confetti.remove(), 1400);
-            }
-        }
-
-        // Trigger confetti burst on title click
-        document.querySelector('.title').addEventListener('click', function(e) {
-            const rect = this.getBoundingClientRect();
-            burstConfetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
-        });
-
-        window.addEventListener('DOMContentLoaded', function() {
-            const music = document.getElementById('bg-music');
-            // Try to play and unmute
-            music.volume = 0.7;
-            music.muted = false;
-            music.play().catch(() => {
-                // If browser blocks autoplay, show a play button
-                const btn = document.createElement('button');
-                btn.textContent = '🎵 Tap to Start';
-                btn.style = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);padding:10px 24px;border-radius:20px;background:#fff;color:#764ba2;font-weight:bold;box-shadow:0 2px 8px #764ba2;z-index:9999;cursor:pointer;';
-                btn.onclick = () => {
-                    music.play();
-                    btn.remove();
-                };
-                document.body.appendChild(btn);
-            });
-        });
-
-        document.getElementById('show-video-btn').onclick = function() {
-            document.getElementById('video-modal').style.display = 'flex';
-            document.getElementById('hug-video').play();
+        document.getElementById('startBtn').onclick = function() {
+            // Hide popup
+            document.getElementById('loadingPopup').style.display = 'none';
+            // Show main content
+            document.getElementById('mainContent').style.display = '';
+            // Play song
+            const song = document.getElementById('sahibaSong');
+            song.play();
         };
-        function closeVideo() {
-            document.getElementById('video-modal').style.display = 'none';
-            document.getElementById('hug-video').pause();
+
+        document.getElementById('hugBtn').onclick = function() {
+            document.getElementById('videoOverlay').style.display = 'block';
+            document.getElementById('videoPopup').style.display = 'block';
+            document.getElementById('hugVideo').currentTime = 0;
+            document.getElementById('hugVideo').play();
+        };
+
+        function hideVideo() {
+            document.getElementById('videoOverlay').style.display = 'none';
+            document.getElementById('videoPopup').style.display = 'none';
+            document.getElementById('hugVideo').pause();
         }
+
+        // Hide video popup when overlay is clicked
+        document.getElementById('videoOverlay').onclick = hideVideo;
     </script>
 </body>
 </html>
