@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Messages for You 🦋</title>
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:D400,700|Dancing+Script&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -112,6 +113,27 @@
             left: 120px;
             animation-delay: 6s;
             animation-duration: 4.2s;
+        }
+
+        .butterfly6 {
+            top: 60px;
+            right: 100px;
+            animation-delay: 7s;
+            animation-duration: 4.3s;
+        }
+
+        .butterfly7 {
+            top: 320px;
+            left: 180px;
+            animation-delay: 8s;
+            animation-duration: 3.7s;
+        }
+
+        .butterfly8 {
+            top: 200px;
+            right: 120px;
+            animation-delay: 9s;
+            animation-duration: 4.5s;
         }
 
         .message {
@@ -225,6 +247,9 @@
         .butterfly3 { animation-delay: 4s, 4s; }
         .butterfly4 { animation-delay: 5s, 5s; }
         .butterfly5 { animation-delay: 6s, 6s; }
+        .butterfly6 { animation-delay: 7s, 7s; }
+        .butterfly7 { animation-delay: 8s, 8s; }
+        .butterfly8 { animation-delay: 9s, 9s; }
 
         @media (max-width: 480px) {
             .title {
@@ -239,6 +264,56 @@
                 padding: 25px;
             }
         }
+
+        /* New styles for the letter section */
+.letter-section {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.letter-paper {
+    background: #fdf6e3;
+    border: 2px solid #e2c799;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(120, 90, 40, 0.12);
+    padding: 32px 28px;
+    max-width: 420px;
+    width: 100%;
+    font-family: 'Georgia', serif;
+    color: #5c4a1a;
+    position: relative;
+}
+
+.letter-header {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 18px;
+    color: #8d6e3c;
+    letter-spacing: 1px;
+}
+
+.letter-body {
+    font-size: 1.15em;
+    line-height: 1.7;
+    text-align: left;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+.letter-paper::before {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: 18px;
+    width: 32px;
+    height: 32px;
+    background: url('https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4e9.svg') no-repeat center center;
+    background-size: contain;
+    opacity: 0.18;
+}
     </style>
 </head>
 <body>
@@ -248,10 +323,10 @@
         background:rgba(102,126,234,0.95);z-index:2000;display:flex;
         flex-direction:column;justify-content:center;align-items:center;
         font-family:'Georgia',serif;color:white;text-align:center;">
-        <h2 style="font-size:2.2rem;margin-bottom:20px;">Hey Baby! 🦋</h2>
+        <h2 style="font-size:2.2rem;margin-bottom:20px;">Hey BABY! 🦋</h2>
         <p style="font-size:1.2rem;margin-bottom:30px;">
             I heard you’re a bit under the weather.<br>
-            Loading extra care and love just for you!<br>
+            Loading extra hugs, giggles, and a secret song to cheer you up!<br>
             (Warning: May cause sudden smiling and toe-tapping.)
         </p>
         <button id="startBtn" style="
@@ -275,6 +350,9 @@
             <div class="butterfly butterfly3" onclick="showMessage(3)">🦋</div>
             <div class="butterfly butterfly4" onclick="showMessage(4)">🦋</div>
             <div class="butterfly butterfly5" onclick="showMessage(5)">🦋</div>
+            <div class="butterfly butterfly6" onclick="showMessage(6)">🦋</div>
+            <div class="butterfly butterfly7" onclick="showMessage(7)">🦋</div>
+            <div class="butterfly butterfly8" onclick="showMessage(8)">🦋</div>
         </div>
         
         <p class="instruction">Click each butterfly to reveal its message 🌟</p>
@@ -284,6 +362,22 @@
             box-shadow:0 4px 16px rgba(0,0,0,0.2);transition:background 0.3s;">
             A Hug for You!
         </button>
+
+        <!-- Letter Section -->
+<div class="letter-section">
+    <div class="letter-paper">
+        <div class="letter-header">A Little Letter for You</div>
+        <div class="letter-body">
+            My dearest Sahiba,<br><br>
+            I know these days haven’t been the easiest, but I wanted to remind you how much you mean to me. Your smile, your laughter, and even your grumpy sick face are precious to me.<br><br>
+            Take all the time you need to rest. I’ll be right here, waiting to spoil you properly with my all.<br><br>
+            Get well soon, beautiful. The world is a little less bright when you’re not feeling your best.<br><br>
+            With all my love,<br>
+            <span style="font-family: 'Dancing Script', cursive; font-size: 1.3em;">Your BHAVIIII</span>
+        </div>
+    </div>
+</div>
+
     </div>
 
     <div class="overlay" id="overlay" onclick="hideMessage()"></div>
@@ -308,10 +402,13 @@
     <script>
         const messages = {
             1: "You're stronger than your sore throat thinks. This too shall pass, and you'll be back to your radiant self soon. 💪✨",
-            2: "He still looks at your picture and smiles when you're not around. You're loved more deeply than you know. 💕",
+            2: "I still look at your pictures and smile when you're not around. You're loved more deeply than you know. 💕",
             3: "Rest is not a luxury, it's a necessity. Your body is working hard to heal, so be gentle with yourself today. 🌸",
             4: "Even when you're feeling low, your light still shines. You bring joy to everyone around you, sick or healthy. ☀️",
-            5: "This butterfly carries a wish: may tomorrow bring you comfort, healing, and all the warmth your heart can hold. 🌈"
+            5: "This butterfly carries a wish: may tomorrow bring you comfort, healing, and all the warmth your heart can hold. 🦋💖",
+            6: "I know you hate being sick, but I love how cute you look bundled up in blankets. Get well soon, okay? 🥺🦋",
+            7: "If I could, I’d send you a thousand butterflies to chase away every ache. For now, here’s one more hug. 🤗",
+            8: "Missing you a little extra today. Promise me you’ll rest and let me spoil you soon! 🍵💖"
         };
 
         let clickedButterflies = new Set();
@@ -330,6 +427,9 @@
             const butterflyEl = document.querySelector(`.butterfly${butterflyNum}`);
             butterflyEl.style.opacity = '0.3';
             butterflyEl.style.transform = 'scale(0.8)';
+
+            // Add love decorations
+            createLoveDecorations();
         }
 
         function hideMessage() {
@@ -398,6 +498,86 @@
 
         // Hide video popup when overlay is clicked
         document.getElementById('videoOverlay').onclick = hideVideo;
+
+        function createLoveDecorations() {
+    const icons = [
+        '🌹', '🌸', '💐', '🍫', '💖', '💝', '✨', '⭐', '🥰', '💕'
+    ];
+    // Shooting stars shower
+    for (let i = 0; i < 18; i++) {
+        const star = document.createElement('div');
+        star.innerHTML = '✨';
+        star.style.position = 'fixed';
+        star.style.left = (Math.random() * window.innerWidth) + 'px';
+        star.style.top = '-40px';
+        star.style.fontSize = (22 + Math.random() * 18) + 'px';
+        star.style.pointerEvents = 'none';
+        star.style.opacity = '0.85';
+        star.style.zIndex = '1200';
+        star.style.transition = 'top 1.2s linear, opacity 1.2s';
+        document.body.appendChild(star);
+
+        setTimeout(() => {
+            star.style.top = (window.innerHeight - 40) + 'px';
+            star.style.opacity = '0';
+        }, 100);
+
+        setTimeout(() => {
+            star.remove();
+        }, 1400 + Math.random() * 400);
+    }
+    // Big kiss in the center
+    const kiss = document.createElement('div');
+    kiss.innerHTML = '💋';
+    kiss.style.position = 'fixed';
+    kiss.style.left = '50%';
+    kiss.style.top = '50%';
+    kiss.style.transform = 'translate(-50%, -50%) scale(0)';
+    kiss.style.fontSize = '80px';
+    kiss.style.zIndex = '1300';
+    kiss.style.opacity = '1';
+    kiss.style.transition = 'transform 0.5s cubic-bezier(.17,.67,.83,.67), opacity 0.8s';
+    document.body.appendChild(kiss);
+
+    setTimeout(() => {
+        kiss.style.transform = 'translate(-50%, -50%) scale(1.2)';
+    }, 100);
+
+    setTimeout(() => {
+        kiss.style.opacity = '0';
+    }, 900);
+
+    setTimeout(() => {
+        kiss.remove();
+    }, 1600);
+
+    // Other love icons around the center
+    for (let i = 0; i < 12; i++) {
+        const deco = document.createElement('div');
+        deco.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+        deco.style.position = 'fixed';
+        deco.style.left = (window.innerWidth / 2 + (Math.random() - 0.5) * 300) + 'px';
+        deco.style.top = (window.innerHeight / 2 + (Math.random() - 0.5) * 180) + 'px';
+        deco.style.fontSize = (28 + Math.random() * 18) + 'px';
+        deco.style.pointerEvents = 'none';
+        deco.style.opacity = '0.85';
+        deco.style.zIndex = '1100';
+        deco.style.transition = 'transform 1.2s cubic-bezier(.17,.67,.83,.67), opacity 1.2s';
+        deco.style.transform = `scale(0.7) translateY(0px)`;
+        document.body.appendChild(deco);
+
+        setTimeout(() => {
+            deco.style.transform = `scale(1.2) translateY(-60px)`;
+            deco.style.opacity = '0';
+        }, 100);
+
+        setTimeout(() => {
+            deco.remove();
+        }, 1600 + Math.random() * 400);
+    }
+}
+
+createLoveDecorations();
     </script>
 </body>
 </html>
